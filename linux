@@ -1,0 +1,12 @@
+24/02/2026
+
+linux commands
+ls -a -hidden files
+
+sql
+
+create database Komhar;
+use Komhar;
+create schema guru;
+create table company(id int,c_name string(20),employees int,department string(20),c_location string(20));
+select* from company;
