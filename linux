@@ -3,6 +3,8 @@
 Linux Commands :
 1. Files & Directories :
 
+ls
+
 ls - shows list of files
 ls -a -shows hidden files
 ls -l  - shows complete detials about files 
@@ -10,7 +12,6 @@ ls -la  - shows hidden files complete detials about files
 ls -t   - shows files sorted by time
 ls -r  - it shows reverse order 
 ls -lt - it shows latest files first
-ls -lh - human readable size
 ls -R - it shows all directories and also show the inside files of repository 
 ls -S - sort by file size
 
@@ -38,6 +39,17 @@ find - is used to search perticular files and directories
 
 
 2.File 
+
+cat - it displays file contant
+less - it shows a file page by page
+more - shows file 
+head - shows first lines of a file (default 10)
+tail - shows last lines of a file (default 10)
+tail -f -it shows live of a file
+nano - used to edit text in a file(first time we need to install it using apt install nano)
+vi/vim - 
+
+
 
 
 
