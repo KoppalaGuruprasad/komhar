@@ -47,7 +47,13 @@ head - shows first lines of a file (default 10)
 tail - shows last lines of a file (default 10)
 tail -f -it shows live of a file
 nano - used to edit text in a file(first time we need to install it using apt install nano)
-vi/vim - 
+vi/vim - advanced text editor
+       - vim file.txt - open file
+       - "i" = then it turns insert mode we can add or remove text
+       - "ESC" = to exit insert mode 
+       - ":wq" = it give save file and exit
+       - ":q!" = exit without saving
+
 
 
 
