@@ -40,13 +40,16 @@ find - is used to search perticular files and directories
 
 2.File 
 
-cat - it displays file contant
+cat - it displays file contant 
 less - it shows a file page by page
+       ESC, :wq  to exit
 more - shows file 
 head - shows first lines of a file (default 10)
 tail - shows last lines of a file (default 10)
 tail -f -it shows live of a file
+        ctr + c to exit 
 nano - used to edit text in a file(first time we need to install it using apt install nano)
+       ctr + x to exit
 vi/vim - advanced text editor
        - vim file.txt - open file
        - "i" = then it turns insert mode we can add or remove text
@@ -132,7 +135,7 @@ INSERT INTO attendances VALUES
 (4,104,'2026-02-20','Late','2026-02-20 09:30:00','2026-02-20 18:10:00'),
 (5,105,'2026-02-20','Present',null,'2026-02-20 17:50:00');
 
-truncate table attendances;
+truncate table attendances;tai
 
 DROP :
 
