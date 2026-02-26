@@ -1,0 +1,23 @@
+13. System Info
+
+whoami                          - it shows current user
+echo "Current user: $(whoami)"  - it shows the current user like " current user: guru"
+who -b - it shows               - it show the when the system was last started
+                                     * but in linux not show any output because MobaXterm does not maintain real Linux boot records.
+who                             - (it shows empty) shows currently who logged into the system 
+id                              - it shows user identity information
+                                     uid - user id
+                                     gid - group id
+                                     groups- groups the user belongs to
+w                               - it shows logged in user and activity
+
+
+hostname                        - Displays system host name
+hostname -f                     - shows full domain name
+hostname -i                     - shows ip address
+                                   * but it not support mobaxterm 
+                                      ipconfig - alternate of hostname -i
+hostname -I                    - shows all ip address
+                                     * but it not support mobaxterm 
+                                      ipconfig - alternate of hostname -i
+
