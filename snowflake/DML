@@ -63,10 +63,17 @@ update salary in range 40000 - 50000
 
 DELETE 
 
+    - after delete the record we can undo that record useing rollback only if data not commit 
+        after commit it won't be possible 
+     - in default snowflake is set as auto commit.
+      if we want to change the mode we use
+      
+            alter session set autocommit=false;
+            
 delete specific row -
 
           delete from attendance
-          where set id=2;
+          where att_id=2;
 
 delete multiple rows -
 
@@ -75,7 +82,7 @@ delete multiple rows -
 
 delete all rows- 
 
-         delete * from attendance;
+         delete from attendance;
 
 Delete using join condition -
 
