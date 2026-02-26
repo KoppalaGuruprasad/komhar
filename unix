@@ -237,7 +237,7 @@ gzip
 gzip - used to compress files to reduce size
 gzip hello.txt - it compress file of hello.txt.gz (original file replaced to compressed file)
 gzip -k hello.txt - it keep original file and create new .gz file
-gzip -l hello.txt.gz - to check compression file
+gzip -l hello.txt.gz - to check compression file (mobaxterm does not support)
 
 gunzip
 
@@ -245,6 +245,7 @@ gunzip hello.txt.gz - it decompress file
 gzip -d hello.txt.gz -  it decompress file (alternate method of above command)
 
 zip - compress multiple files
+    zip we need to install : apt install zip (but not available in mobaxterm)
 
 zip backup.zip a.txt b.txt -it compress both files into one zip file named backup
 zip -r komhar.zip komhar/ - folder convert into .zip folder ( -r used to include folder files)
@@ -273,6 +274,8 @@ top
       k-kill process
       s-sort by cpu
       m-sort by memory
+      ctrl +c - exit command
+
 htop -improved version of top
       we need to install in first "apt install htop"
 kill pid(ex: 123) - it can stop using pid
@@ -294,28 +297,31 @@ jobs -shows background jobs
 
 nohup - it allows a process to continue running even if the terminal is closed
 
-nohup komhar hello.txt & - it runs continues even if i logout from server 
+nohup cat hello.txt & - it runs continues even if i logout from server 
                we can stop this using kill command
 
 DF
 
 df - it shows disk space, used space and available space
 df -h -human readable format
+*
 df -h/home - check specific file system
 
 du - it shows how much space files occupied
 du -h  - human readable
-du -sh komhar -shows directory total size
+du -sh a.txt-shows directory total size
+*
 du -h --max-depth=1  - shows size of all folders
- 
+* 
 free -show ram and swap memory usage
 free -h - human readable
+*
 free -h -s 2 - it shows continues memory monitoring
 
 *
 mount - it attach a filesystem to the linux directory
 mount usb device -sudo mount/dev/sdb1/mnt -
-
+*
 umount - removes the mounted filesystem safely
          must umount before removing usb
 
