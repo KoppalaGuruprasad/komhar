@@ -1,0 +1,55 @@
+joins - joins are used to combine data from two or more tables based on a related column
+
+1. inner join - used to return only matching records from both tables
+              - it return c_name, emp_name and salry 
+                    select c.c_name,e.emp_name,e.salary 
+                    from company c
+                    inner join Employees e
+                    on c.emp_id = e.Emp_id;
+
+             - Another way 
+
+                    select * from employees
+                    join company
+                    on company.emp_id=Employees.emp_id;
+Natural join - Automatically joins same column
+             - in inner join we must specify column but here no need
+                   select * from company 
+                    natural join Employees;
+2. left join - used to return all records from the left table and matching records from the right table
+                 
+                    select c.c_name,e.emp_name,e.salary 
+                    from company c
+                    left join Employees e
+                    on c.emp_id = e.Emp_id;
+
+3. right join - used to return all records from the right table and matching records from the left table
+
+                    select c.c_name,e.emp_name,e.salary 
+                    from company c
+                    right join Employees e
+                    on c.emp_id = e.Emp_id;
+
+4. full outer join -it return all the records from both tables and fill with null if there is no match
+
+                    select c.c_name,e.emp_name,e.salary 
+                    from company c
+                    full join Employees e
+                    on c.emp_id = e.Emp_id;
+
+5. self join - used to join a table with itself
+                 - it is used to compare rows within the same table (<> - not equal)
+
+                    select e1.emp_name,e2.emp_name
+                    from Employees e1
+                    join Employees e2
+                    on e1.dept_id = e2.dept_id
+                    and e1.emp_id <> e2.emp_id;
+
+6. cross join - used to return the Cartesian product of the two tables
+                 - it return all possible combinations of rows from both tables
+
+                    select c.c_name,e.emp_name,e.salary
+                    from company c
+                    cross join Employees e;
+
