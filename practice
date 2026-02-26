@@ -59,89 +59,6 @@ vi/vim - advanced text editor
 
 
 
-
-
-
-SNOW FLAKE - SQL
-
-DATABASE CREATION :
-
-create database Komhar;
-use Komhar;
-
-SCHEMA CREATION :
-
-create schema guru;
-
-DDL COMMANDS :
-CREATION :
-
-create table company(
-c_id int,
-c_name varchar(20),
-emp_id int,
-c_location varchar(20));
-
-create table Employees(
-emp_id int,
-emp_name varchar(20),
-gender varchar(9),
-dept_id int,
-salary int
-);
-
-create table attendance(
-att_id int,
-emp_id int,
-Date date,
-status varchar(20),
-check_in timestamp,
-check_out timestamp
-);
- 
-create table Projects(
-p_id int,
-p_name varchar(20),
-start_date date,
-end_date date,
-dept_id int
-);
-
-ALTER :
-
-alter table Projects
-add p_head varchar(20);
-
-alter table Projects
-drop column p_id;
-
-alter table attendances
-alter column status 
-set data type varchar(224);
-
-RENAME :
-
-alter table attendances 
-rename column att_id to attendance_id;
-
-alter table attendance rename to attendances;
-
-TRUNCATE :
-
-INSERT INTO attendances VALUES
-(1,101,'2026-02-20','Present','2026-02-20 09:00:00','2026-02-20 18:00:00'),
-(2,102,'2026-02-20','Present','2026-02-20 09:05:00','2026-02-20 18:05:00'),
-(3,103,'2026-02-20','Absent',null,null),
-(4,104,'2026-02-20','Late','2026-02-20 09:30:00','2026-02-20 18:10:00'),
-(5,105,'2026-02-20','Present',null,'2026-02-20 17:50:00');
-
-truncate table attendances;tai
-
-DROP :
-
-drop table attendance;
-drop table Projects;
-
 25/02/2026
 
 grep
@@ -347,25 +264,124 @@ date "+%H-%M-%s" - shows time only
 
 
 
+26/02/2026
+
+13. System Info
+
+whoami                          - it shows current user
+echo "Current user: $(whoami)"  - it shows the current user like " current user: guru"
+who -b - it shows               - it show the when the system was last started
+                                     * but in linux not show any output because MobaXterm does not maintain real Linux boot records.
+who                             - (it shows empty) shows currently who logged into the system 
+id                              - it shows user identity information
+                                     uid - user id
+                                     gid - group id
+                                     groups- groups the user belongs to
+w                               - it shows logged in user and activity
 
 
+hostname                        - Displays system host name
+hostname -f                     - shows full domain name
+hostname -i                     - shows ip address
+                                   * but it not support mobaxterm 
+                                      ipconfig - alternate of hostname -i
+hostname -I                    - shows all ip address
+                                     * but it not support mobaxterm 
+                                      ipconfig - alternate of hostname -i
+date                           - shows current date and time
+date +%F                       - shows only date
+date +%T                       - shows only time
+date "+%d-%m-%y %H-%M-%s"      - custom format
+date -s                        - used to set date and time (admin) 
+                                   * not work in mobaxterm alternate is sudo date -s"2026-02-26 01:30:00"
+uptime                         - shows how long system has been running since last boot
+uptime -p                      - shows a simple human-readable format
+uptime -s                      - when system is running
+
+cal 2026                       - shows calender in specific year
+cal 2 2026                     - show specific month in a year
 
 
+24/05/2026 -
 
+SNOW FLAKE - SQL
+
+DATABASE CREATION :
+
+create database Komhar;
+use Komhar;
+
+SCHEMA CREATION :
+
+create schema guru;
+
+DDL COMMANDS :
+CREATION :
+
+create table company(
+c_id int,
+c_name varchar(20),
+emp_id int,
+c_location varchar(20));
+
+create table Employees(
+emp_id int,
+emp_name varchar(20),
+gender varchar(9),
+dept_id int,
+salary int
+);
+
+create table attendance(
+att_id int,
+emp_id int,
+Date date,
+status varchar(20),
+check_in timestamp,
+check_out timestamp
+);
  
+create table Projects(
+p_id int,
+p_name varchar(20),
+start_date date,
+end_date date,
+dept_id int
+);
 
+ALTER :
 
+alter table Projects
+add p_head varchar(20);
 
+alter table Projects
+drop column p_id;
 
+alter table attendances
+alter column status 
+set data type varchar(224);
 
+RENAME :
 
+alter table attendances 
+rename column att_id to attendance_id;
 
+alter table attendance rename to attendances;
 
+TRUNCATE :
 
+INSERT INTO attendances VALUES
+(1,101,'2026-02-20','Present','2026-02-20 09:00:00','2026-02-20 18:00:00'),
+(2,102,'2026-02-20','Present','2026-02-20 09:05:00','2026-02-20 18:05:00'),
+(3,103,'2026-02-20','Absent',null,null),
+(4,104,'2026-02-20','Late','2026-02-20 09:30:00','2026-02-20 18:10:00'),
+(5,105,'2026-02-20','Present',null,'2026-02-20 17:50:00');
 
+truncate table attendances;tai
 
+DROP :
 
-
-
+drop table attendance;
+drop table Projects;
 
 

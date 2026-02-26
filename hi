@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 DML :
 
  insert - used to insert values into table 
@@ -83,9 +84,395 @@ delete all rows-
 delete * from attendance;
 
 Delete using join condition -
+=======
+24/02/2026
+
+unix Commands :
+1. Files & Directories :
+
+ls
+
+ls - shows list of files
+ls -a -shows hidden files
+ls -l  - shows complete detials about files 
+ls -la  - shows hidden files complete detials about files  
+ls -t   - shows files sorted by time
+ls -r  - it shows reverse order 
+ls -lt - it shows latest files first
+ls -R - it shows all directories and also show the inside files of repository 
+ls -S - sort by file size
+
+pwd
+
+pwd -p - shows the physical directory
+pwd -L - show local directory(default)
+
+cd
+
+cd	 (or) cd ~       - Go to home directory
+cd ..		     - Go back one folder
+cd ../..       - Go back two folders
+cd -	           - Go to previous directory and shows that line 
+cd /	     - Go to root directory
+
+mkdir - create a directory
+rmdir - it removes directory if it is empty
+touch - it creates a empty file and update time
+cp - copy directories and files
+mv - move & rename files and directories
+rm - remove files and directories
+stat - shows the file information 
+find - is used to search perticular files and directories
+
+
+2.File 
+
+cat - it displays file contant 
+less - it shows a file page by page
+       ESC, :wq  to exit
+more - shows file 
+head - shows first lines of a file (default 10)
+tail - shows last lines of a file (default 10)
+tail -f -it shows live of a file
+        ctr + c to exit 
+nano - used to edit text in a file(first time we need to install it using apt install nano)
+       ctr + x to exit
+vi/vim - advanced text editor
+       - vim file.txt - open file
+       - "i" = then it turns insert mode we can add or remove text
+       - "ESC" = to exit insert mode 
+       - ":wq" = it give save file and exit
+       - ":q!" = exit without saving
+
+
+
+25/02/2026
+
+grep
+
+grep - used to search a word or pattern inside a file
+grep "IT" hello.txt - it gives all "IT" department employee data
+grep -i "it" hello.txt - ignore case sensitive
+grep -n "Pune" hello.txt - it shows line number where the data is present
+grep -r "HR" . - it shows which directory that column present
+grep -v "Name" hello.txt - it can remove the mentioned data and gives remaining data
+grep -c "IT" hello.txt - It counts the matching data and returns the number of matches.
+
+SED 
+
+sed 's/Name/name' hello.txt - replace the word
+sed 's/Name/name/g' hello.txt - replace all "Name" in that file globally
+sed -n '2p' hello.txt - shows only 2 lines
+sed -n '2,5p' hello.txt - shows inbetween files like range
+sed '3d' hello.txt - delete line 3
+sed -i 's/hello/hi/g' hello.txt - replaces the word "hello" with "hi" in the file permanently
+
+AWK
+
+awk '{print $0}' hello.txt - it gives all data inside the file
+awk '{print $1,$4}' hello.txt - it prints the 1st and 4th columns from the file
+awk '{print NR,$1}' hello.txt - it gives line number before that column data
+awk '{print NF}' hello.txt - it gives number of colums per line
+awk '$4 > 50000 {print $4}' hello.txt - it prints the values in column 4 that followed by condition from the file
+       Note : If we do not specify {print $4}, prints the all columns that satisfy the condition.
+awk -F "," '{print $2}' hello.txt - it gives comma seperated data
+
+CUT
+
+cut -d " " -f2 hello.txt - it gives only 2nd column data (it works on space seperated data)
+cut -d "," -f2 hello.txt - it gives only 2nd column data (it works on comma seperated data)
+cut -d " " -f1,3 hello.txt - it gives 1,3 column data
+cut -c1-5 hello.txt - give upto 5 characters on that data(it count spaces also)
+
+SORT
+
+sort hello.txt - it will sort based on 1st column default.
+cat hello.txt | sort - sort the file using pipe
+sort -r hello.txt - it will sort file and reverse the output
+sort -n hello.txt - it will sort based on numerical column
+sort -k3 hello.txt - it can sort specific column
+sort -u hello.txt - used to remove duplicates and sort the file
+
+uniq
+
+uniq - it only work only if the duplicate data are next to each other otherwise it shows all data to avoid that we use "sort" and "pipe"
+sort hello.txt | uniq = it works correctly and sort data
+sort hello.txt | uniq -c - count duplicates
+sort hello.txt | uniq -u - shows uniq data only duplicated data not shown( like i/p = 1,1,2,3 .o/p =2,3)
+sort hello.txt | uniq -d - shows only duplicated data
+
+WC
+
+wc hello.txt - it gives in the format of no.of lines,words,characters
+wc -c hello.txt - gives no.of character count
+wc -l hello.txt - gives no.of lines count
+wc -w hello.txt - gives no.of words count
+wc -m hello.txt - gives no.of character/bytes count
+grep "IT" hello.txt |wc -l - wc using pipe
+
+TR
+
+tr works with standard input,so we used " l "
+echo "hello word" | tr 'h' 'H' - it replaces the character
+echo "hello word" | tr 'a-z' 'A-Z' - it convert lowercase to uppercase
+echo "hello word 12334" | tr -d '0-9' - used to delete numeric values
+echo "hello word1234234" | tr -d 'a-z' 'A-Z' - used to delete alphabetical values
+echo "hello word    1234234" | tr -s ' ' - used to remove extra spaces
+cat hello.txt | tr 'a-z' 'A-Z' - used to change type of all data in file
+
+TAR
+
+tar - (tape archive) used to create archive multiple files into single file
+       c-create archive
+       v-show process
+       f-file name
+       x- archive file
+       z-gzip compression
+       j- bzip2 compression
+tar -cvf hello.txt - it archive directory
+tar -xvf hello.txt - it extract the file
+tar -tvf hello.txt - list archive content
+tar -czvf home.gz hello.txt/ - used to create compressed archive folder (tar +gzip)
+tar -xzvf home.gz - compresses archive files
+
+
+gzip 
+
+gzip - used to compress files to reduce size
+gzip hello.txt - it compress file of hello.txt.gz (original file replaced to compressed file)
+gzip -k hello.txt - it keep original file and create new .gz file
+gzip -l hello.txt.gz - to check compression file (mobaxterm does not support)
+
+gunzip
+
+gunzip hello.txt.gz - it decompress file
+gzip -d hello.txt.gz -  it decompress file (alternate method of above command)
+
+zip - compress multiple files
+    zip we need to install : apt install zip (but not available in mobaxterm)
+
+zip backup.zip a.txt b.txt -it compress both files into one zip file named backup
+zip -r komhar.zip komhar/ - folder convert into .zip folder ( -r used to include folder files)
+
+unzip 
+unzip backup.zp - extract files from .zip
+
+PROCESS MANAGEMENT
+
+ps - shows current running processes
+
+       PID - process ID
+       TTY - Terminal
+       TIME - CPU time used
+       CMD - command name
+       
+
+ps -e - show all processes (or) ps -A
+ps -ef - shows detail process list
+       UID -user
+       PPID - parent process
+
+top
+       - it is used to show livesystem process
+      q- quit
+      k-kill process
+      s-sort by cpu
+      m-sort by memory
+      ctrl +c - exit command
+
+htop -improved version of top
+      we need to install in first "apt install htop"
+kill pid(ex: 123) - it can stop using pid
+   -9 -force kill
+   -15 - stop (default)
+
+killall - used instead of pid
+killall crome - stop all crome processes
+
+bg
+    it is used to resume a stopped file in background
+sleep 100 then press ctrl+z -it stops the process then run bg - process runs background
+
+fg - it takes background job into foreground
+
+jobs -shows background jobs
+ [1] -job number
+ & -background process
+
+nohup - it allows a process to continue running even if the terminal is closed
+
+nohup cat hello.txt & - it runs continues even if i logout from server 
+               we can stop this using kill command
+
+DF
+
+df - it shows disk space, used space and available space
+df -h -human readable format
+*
+df -h/home - check specific file system
+
+du - it shows how much space files occupied
+du -h  - human readable
+du -sh a.txt-shows directory total size
+*
+du -h --max-depth=1  - shows size of all folders
+* 
+free -show ram and swap memory usage
+free -h - human readable
+*
+free -h -s 2 - it shows continues memory monitoring
+
+*
+mount - it attach a filesystem to the linux directory
+mount usb device -sudo mount/dev/sdb1/mnt -
+*
+umount - removes the mounted filesystem safely
+         must umount before removing usb
+
+umount device
+*
+
+cal - used to display calender in terminal
+cal 2 2026 - it shows 2 nd moth calender of 2026 in terminal
+cal 2026 - it shows all 12 months on that year
+cal -3 - it shows 3 months calender
+cal -m - to start with monday (default it contains sunday)
+cal -v - it shows vertical calender
+
+hostname -it shpws server name in the network
+sudo hostname newserver - used to change host name temporary
+whoami - used to show current logged -in user
+who - used to show all users currently login into the system
+uptime - shows how long the system has been running snice last time the system was started
+date - shows date and time
+date "+%Y-%m-%d" - custom date format(shows date only)
+date "+%H-%M-%s" - shows time only
+>>>>>>> 7f6bbc3ad01bb7e5f0d9efbc55b740f9e3bff2da
 
 
 
 
+<<<<<<< HEAD
+=======
+26/02/2026
+
+13. System Info
+
+whoami                          - it shows current user
+echo "Current user: $(whoami)"  - it shows the current user like " current user: guru"
+who -b - it shows               - it show the when the system was last started
+                                     * but in linux not show any output because MobaXterm does not maintain real Linux boot records.
+who                             - (it shows empty) shows currently who logged into the system 
+id                              - it shows user identity information
+                                     uid - user id
+                                     gid - group id
+                                     groups- groups the user belongs to
+w                               - it shows logged in user and activity
+
+
+hostname                        - Displays system host name
+hostname -f                     - shows full domain name
+hostname -i                     - shows ip address
+                                   * but it not support mobaxterm 
+                                      ipconfig - alternate of hostname -i
+hostname -I                    - shows all ip address
+                                     * but it not support mobaxterm 
+                                      ipconfig - alternate of hostname -i
+date                           - shows current date and time
+date +%F                       - shows only date
+date +%T                       - shows only time
+date "+%d-%m-%y %H-%M-%s"      - custom format
+date -s                        - used to set date and time (admin) 
+                                   * not work in mobaxterm alternate is sudo date -s"2026-02-26 01:30:00"
+uptime                         - shows how long system has been running since last boot
+uptime -p                      - shows a simple human-readable format
+uptime -s                      - when system is running
+
+cal 2026                       - shows calender in specific year
+cal 2 2026                     - show specific month in a year
+
+
+24/05/2026 -
+
+SNOW FLAKE - SQL
+
+DATABASE CREATION :
+
+create database Komhar;
+use Komhar;
+
+SCHEMA CREATION :
+
+create schema guru;
+
+DDL COMMANDS :
+CREATION :
+
+create table company(
+c_id int,
+c_name varchar(20),
+emp_id int,
+c_location varchar(20));
+
+create table Employees(
+emp_id int,
+emp_name varchar(20),
+gender varchar(9),
+dept_id int,
+salary int
+);
+
+create table attendance(
+att_id int,
+emp_id int,
+Date date,
+status varchar(20),
+check_in timestamp,
+check_out timestamp
+);
+ 
+create table Projects(
+p_id int,
+p_name varchar(20),
+start_date date,
+end_date date,
+dept_id int
+);
+
+ALTER :
+
+alter table Projects
+add p_head varchar(20);
+
+alter table Projects
+drop column p_id;
+
+alter table attendances
+alter column status 
+set data type varchar(224);
+
+RENAME :
+
+alter table attendances 
+rename column att_id to attendance_id;
+
+alter table attendance rename to attendances;
+
+TRUNCATE :
+
+INSERT INTO attendances VALUES
+(1,101,'2026-02-20','Present','2026-02-20 09:00:00','2026-02-20 18:00:00'),
+(2,102,'2026-02-20','Present','2026-02-20 09:05:00','2026-02-20 18:05:00'),
+(3,103,'2026-02-20','Absent',null,null),
+(4,104,'2026-02-20','Late','2026-02-20 09:30:00','2026-02-20 18:10:00'),
+(5,105,'2026-02-20','Present',null,'2026-02-20 17:50:00');
+
+truncate table attendances;tai
+
+DROP :
+
+drop table attendance;
+drop table Projects;
+>>>>>>> 7f6bbc3ad01bb7e5f0d9efbc55b740f9e3bff2da
 
 
