@@ -1,0 +1,34 @@
+13. System Info
+
+whoami                          - it shows current user
+echo "Current user: $(whoami)"  - it shows the current user like " current user: guru"
+who -b - it shows               - it show the when the system was last started
+                                     * but in linux not show any output because MobaXterm does not maintain real Linux boot records.
+who                             - (it shows empty) shows currently who logged into the system 
+id                              - it shows user identity information
+                                     uid - user id
+                                     gid - group id
+                                     groups- groups the user belongs to
+w                               - it shows logged in user and activity
+
+
+hostname                        - Displays system host name
+hostname -f                     - shows full domain name
+hostname -i                     - shows ip address
+                                   * but it not support mobaxterm 
+                                      ipconfig - alternate of hostname -i
+hostname -I                    - shows all ip address
+                                     * but it not support mobaxterm 
+                                      ipconfig - alternate of hostname -i
+date                           - shows current date and time
+date +%F                       - shows only date
+date +%T                       - shows only time
+date "+%d-%m-%y %H-%M-%s"      - custom format
+date -s                        - used to set date and time (admin) 
+                                   * not work in mobaxterm alternate is sudo date -s"2026-02-26 01:30:00"
+uptime                         - shows how long system has been running since last boot
+uptime -p                      - shows a simple human-readable format
+uptime -s                      - when system is running
+
+cal 2026                       - shows calender in specific year
+cal 2 2026                     - show specific month in a year
