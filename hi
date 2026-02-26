@@ -1,1 +1,91 @@
-hidden
+DML :
+
+ insert - used to insert values into table 
+basic insert-
+
+insert into attendance(att_id,emp_id,status)
+values(4,104,'working');
+
+multiple data insert at a time -
+
+insert into attendance(att_id,emp_id,status)
+(1,101,'working'),
+(2,102,'off'),
+(3,103,'working');
+
+insert into all columns 
+
+insert into attendance values(3,103,'working');
+
+
+insert one table data into another table (if table doesn't exist)
+
+create table attendance_backup as 
+select * from attendance;
+
+insert one table data into another table (if table exist) 
+
+insert into attendance_backup
+select* from attendance;
+
+update -
+
+update single column-
+
+update attendance
+set status = 'off'
+where emp_id=103;
+
+update multiple columns-
+
+update attendance
+set status = 'off',
+    emp_id=100
+where att_id=103;
+
+update all rows-
+
+update attendance set emp_id=Emp_id+1;
+
+update using another table -
+
+UPDATE student s
+SET subject = t.subject
+FROM teacher t
+WHERE s.teacher_id = t.teacher_id;
+
+increase salary at a time all -
+
+UPDATE employees
+SET salary = salary + 500;
+
+update salary in range 40000 - 50000
+
+UPDATE employees
+SET salary = 4500
+WHERE salary BETWEEN 40000 AND 50000;
+
+
+delete -
+
+delete specific row -
+
+delete from attendance
+where set id=2;
+
+delete multiple rows -
+
+delete from attendance 
+where status = 'off';
+
+delete all rows- 
+
+delete * from attendance;
+
+Delete using join condition -
+
+
+
+
+
+
