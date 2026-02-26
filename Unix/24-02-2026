@@ -1,0 +1,56 @@
+unix Commands :
+1. Files & Directories :
+
+ls
+
+ls - shows list of files
+ls -a -shows hidden files
+ls -l  - shows complete detials about files 
+ls -la  - shows hidden files complete detials about files  
+ls -t   - shows files sorted by time
+ls -r  - it shows reverse order 
+ls -lt - it shows latest files first
+ls -R - it shows all directories and also show the inside files of repository 
+ls -S - sort by file size
+
+pwd
+
+pwd -p - shows the physical directory
+pwd -L - show local directory(default)
+
+cd
+
+cd	 (or) cd ~       - Go to home directory
+cd ..		     - Go back one folder
+cd ../..       - Go back two folders
+cd -	           - Go to previous directory and shows that line 
+cd /	     - Go to root directory
+
+mkdir - create a directory
+rmdir - it removes directory if it is empty
+touch - it creates a empty file and update time
+cp - copy directories and files
+mv - move & rename files and directories
+rm - remove files and directories
+stat - shows the file information 
+find - is used to search perticular files and directories
+
+
+2.File 
+
+cat - it displays file contant 
+less - it shows a file page by page
+       ESC, :wq  to exit
+more - shows file 
+head - shows first lines of a file (default 10)
+tail - shows last lines of a file (default 10)
+tail -f -it shows live of a file
+        ctr + c to exit 
+nano - used to edit text in a file(first time we need to install it using apt install nano)
+       ctr + x to exit
+vi/vim - advanced text editor
+       - vim file.txt - open file
+       - "i" = then it turns insert mode we can add or remove text
+       - "ESC" = to exit insert mode 
+       - ":wq" = it give save file and exit
+       - ":q!" = exit without saving
