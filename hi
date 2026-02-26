@@ -301,3 +301,87 @@ uptime -s                      - when system is running
 cal 2026                       - shows calender in specific year
 cal 2 2026                     - show specific month in a year
 
+
+24/05/2026 -
+
+SNOW FLAKE - SQL
+
+DATABASE CREATION :
+
+create database Komhar;
+use Komhar;
+
+SCHEMA CREATION :
+
+create schema guru;
+
+DDL COMMANDS :
+CREATION :
+
+create table company(
+c_id int,
+c_name varchar(20),
+emp_id int,
+c_location varchar(20));
+
+create table Employees(
+emp_id int,
+emp_name varchar(20),
+gender varchar(9),
+dept_id int,
+salary int
+);
+
+create table attendance(
+att_id int,
+emp_id int,
+Date date,
+status varchar(20),
+check_in timestamp,
+check_out timestamp
+);
+ 
+create table Projects(
+p_id int,
+p_name varchar(20),
+start_date date,
+end_date date,
+dept_id int
+);
+
+ALTER :
+
+alter table Projects
+add p_head varchar(20);
+
+alter table Projects
+drop column p_id;
+
+alter table attendances
+alter column status 
+set data type varchar(224);
+
+RENAME :
+
+alter table attendances 
+rename column att_id to attendance_id;
+
+alter table attendance rename to attendances;
+
+TRUNCATE :
+
+INSERT INTO attendances VALUES
+(1,101,'2026-02-20','Present','2026-02-20 09:00:00','2026-02-20 18:00:00'),
+(2,102,'2026-02-20','Present','2026-02-20 09:05:00','2026-02-20 18:05:00'),
+(3,103,'2026-02-20','Absent',null,null),
+(4,104,'2026-02-20','Late','2026-02-20 09:30:00','2026-02-20 18:10:00'),
+(5,105,'2026-02-20','Present',null,'2026-02-20 17:50:00');
+
+truncate table attendances;tai
+
+DROP :
+
+drop table attendance;
+drop table Projects;
+
+
