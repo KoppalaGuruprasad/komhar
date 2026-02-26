@@ -90,8 +90,7 @@ Delete using join condition - snowflake does not support Delete with join condit
 
             delete employees
             where emp_id in (
-                select c-Id from customers
-            );
+                select c-Id from customers);
 
  
 
