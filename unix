@@ -328,6 +328,21 @@ umount - removes the mounted filesystem safely
 umount device
 *
 
+cal - used to display calender in terminal
+cal 2 2026 - it shows 2 nd moth calender of 2026 in terminal
+cal 2026 - it shows all 12 months on that year
+cal -3 - it shows 3 months calender
+cal -m - to start with monday (default it contains sunday)
+cal -v - it shows vertical calender
+
+hostname -it shpws server name in the network
+sudo hostname newserver - used to change host name temporary
+whoami - used to show current logged -in user
+who - used to show all users currently login into the system
+uptime - shows how long the system has been running snice last time the system was started
+date - shows date and time
+date "+%Y-%m-%d" - custom date format(shows date only)
+date "+%H-%M-%s" - shows time only
 
 
 
