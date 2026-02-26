@@ -20,4 +20,16 @@ hostname -i                     - shows ip address
 hostname -I                    - shows all ip address
                                      * but it not support mobaxterm 
                                       ipconfig - alternate of hostname -i
+date                           - shows current date and time
+date +%F                       - shows only date
+date +%T                       - shows only time
+date "+%d-%m-%y %H-%M-%s"      - custom format
+date -s                        - used to set date and time (admin) 
+                                   * not work in mobaxterm alternate is sudo date -s"2026-02-26 01:30:00"
+uptime                         - shows how long system has been running since last boot
+uptime -p                      - shows a simple human-readable format
+uptime -s                      - when system is running
+
+cal 2026                       - shows calender in specific year
+cal 2 2026                     - show specific month in a year
 
