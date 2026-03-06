@@ -1,1 +1,192 @@
 
+INSERT INTO ORDER_PROCESS_METRICS
+(
+PROCESS_DATE,
+TOTAL_STG_COUNT,
+VALID_COUNT,
+INVALID_COUNT,
+INSERT_COUNT,
+UPDATE_COUNT
+)
+SELECT
+CURRENT_DATE,
+(SELECT COUNT(*) FROM STG_ORDERS),
+(SELECT COUNT(*)
+ FROM STG_ORDERS s
+ JOIN DIM_CUSTOMER d
+ ON s.customer_id = d.customer_id
+ WHERE s.amount > 0
+ AND s.order_date <= CURRENT_DATE),
+ 
+(SELECT COUNT(*)
+ FROM STG_ORDERS s
+ LEFT JOIN DIM_CUSTOMER d
+ ON s.customer_id = d.customer_id
+ WHERE s.amount <= 0
+ OR s.order_date > CURRENT_DATE
+ OR d.customer_id IS NULL),
+
+(SELECT COUNT(*)
+ FROM STG_ORDERS s
+ JOIN DIM_CUSTOMER d
+ ON s.customer_id = d.customer_id
+ LEFT JOIN FACT_ORDERS f
+ ON s.order_id = f.order_id
+ WHERE s.amount > 0
+ AND s.order_date <= CURRENT_DATE
+ AND f.order_id IS NULL),
+
+(SELECT COUNT(*)
+ FROM STG_ORDERS s
+ JOIN DIM_CUSTOMER d
+ ON s.customer_id = d.customer_id
+ JOIN FACT_ORDERS f
+ ON s.order_id = f.order_id
+ WHERE s.amount > 0
+ AND s.order_date <= CURRENT_DATE
+ AND (f.amount <> s.amount OR f.status <> s.status)
+);
+select * from fact_orders;
+select * from ORDER_PROCESS_METRICS;
+
+select * from fact_orders;
+where amount<0;
+select distinct status from fact_orders;
+
+select * from fact_orders;
+where sum(amount)>1000
+limit 3;
+
+select top 3 customer_id,sum(amount) as total_amount from fact_orders
+group by customer_id
+having sum(amount)>1000
+order by total_amount desc;
+
+
+--/storage procedure
+
+CREATE OR REPLACE PROCEDURE USP_PROCESS_DAILY_ORDERS()
+RETURNS STRING
+LANGUAGE SQL
+AS
+$$
+BEGIN
+
+-- Insert invalid records
+INSERT INTO ORDER_ERROR_LOG (ORDER_ID, ERROR_REASON)
+SELECT 
+s.order_id,
+CASE
+WHEN s.amount <= 0 THEN 'INVALID AMOUNT'
+WHEN s.order_date > CURRENT_DATE THEN 'INVALID ORDER DATE'
+WHEN d.customer_id IS NULL THEN 'CUSTOMER NOT FOUND'
+END
+FROM STG_ORDERS s
+LEFT JOIN DIM_CUSTOMER d
+ON s.customer_id = d.customer_id
+WHERE
+s.amount <= 0
+OR s.order_date > CURRENT_DATE
+OR d.customer_id IS NULL;
+
+-- CDC MERGE
+MERGE INTO FACT_ORDERS f
+USING (
+SELECT *
+FROM (
+SELECT
+s.order_id,
+s.customer_id,
+s.order_date,
+s.amount,
+s.status,
+ROW_NUMBER() OVER(
+PARTITION BY s.order_id
+ORDER BY s.order_date DESC
+) rn
+FROM STG_ORDERS s
+JOIN DIM_CUSTOMER d
+ON s.customer_id = d.customer_id
+WHERE
+s.amount > 0
+AND s.order_date <= CURRENT_DATE
+) t
+WHERE rn = 1
+) src
+ON f.order_id = src.order_id
+
+WHEN MATCHED
+AND (f.amount <> src.amount OR f.status <> src.status)
+THEN UPDATE SET
+f.amount = src.amount,
+f.status = src.status,
+f.order_date = src.order_date
+
+WHEN NOT MATCHED
+THEN INSERT
+(order_id, customer_id, order_date, amount, status)
+VALUES
+(src.order_id, src.customer_id, src.order_date, src.amount, src.status);
+
+-- Insert metrics
+INSERT INTO ORDER_PROCESS_METRICS
+(
+PROCESS_DATE,
+TOTAL_STG_COUNT,
+VALID_COUNT,
+INVALID_COUNT,
+INSERT_COUNT,
+UPDATE_COUNT
+)
+SELECT
+CURRENT_DATE,
+
+(SELECT COUNT(*) FROM STG_ORDERS),
+
+(SELECT COUNT(*)
+ FROM STG_ORDERS s
+ JOIN DIM_CUSTOMER d
+ ON s.customer_id = d.customer_id
+ WHERE s.amount > 0
+ AND s.order_date <= CURRENT_DATE),
+
+(SELECT COUNT(*)
+ FROM STG_ORDERS s
+ LEFT JOIN DIM_CUSTOMER d
+ ON s.customer_id = d.customer_id
+ WHERE s.amount <= 0
+ OR s.order_date > CURRENT_DATE
+ OR d.customer_id IS NULL),
+
+(SELECT COUNT(*)
+ FROM STG_ORDERS s
+ JOIN DIM_CUSTOMER d
+ ON s.customer_id = d.customer_id
+ LEFT JOIN FACT_ORDERS f
+ ON s.order_id = f.order_id
+ WHERE s.amount > 0
+ AND s.order_date <= CURRENT_DATE
+ AND f.order_id IS NULL),
+
+(SELECT COUNT(*)
+ FROM STG_ORDERS s
+ JOIN DIM_CUSTOMER d
+ ON s.customer_id = d.customer_id
+ JOIN FACT_ORDERS f
+ ON s.order_id = f.order_id
+ WHERE s.amount > 0
+ AND s.order_date <= CURRENT_DATE
+ AND (f.amount <> s.amount OR f.status <> s.status)
+);
+
+RETURN 'PROCESS COMPLETED SUCCESSFULLY';
+EXCEPTION
+WHEN OTHER THEN
+ROLLBACK;
+RETURN 'PROCESS FAILED';
+END;
+$$;
+
+CALL USP_PROCESS_DAILY_ORDERS();
+
+select* from stg_orders;
