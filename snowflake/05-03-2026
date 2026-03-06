@@ -46,21 +46,10 @@ CURRENT_DATE,
  AND s.order_date <= CURRENT_DATE
  AND (f.amount <> s.amount OR f.status <> s.status)
 );
+
 select * from fact_orders;
 select * from ORDER_PROCESS_METRICS;
 
-select * from fact_orders;
-where amount<0;
-select distinct status from fact_orders;
-
-select * from fact_orders;
-where sum(amount)>1000
-limit 3;
-
-select top 3 customer_id,sum(amount) as total_amount from fact_orders
-group by customer_id
-having sum(amount)>1000
-order by total_amount desc;
 
 
 --/storage procedure
@@ -190,3 +179,17 @@ $$;
 CALL USP_PROCESS_DAILY_ORDERS();
 
 select* from stg_orders;
+
+
+select * from fact_orders;
+where amount<0;
+select distinct status from fact_orders;
+
+select * from fact_orders;
+where sum(amount)>1000
+limit 3;
+
+select top 3 customer_id,sum(amount) as total_amount from fact_orders
+group by customer_id
+having sum(amount)>1000
+order by total_amount desc;
