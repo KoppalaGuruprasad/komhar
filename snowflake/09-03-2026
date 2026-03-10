@@ -1,0 +1,302 @@
+create or replace database komhar;
+use database komhar;
+create or replace schema guru;
+use schema guru;
+
+create or replace table DIM_CUSTOMER
+(
+customer_id int,
+customer_name string,
+city string,
+created_date date default current_time,
+is_active boolean,
+customer_type string
+);
+
+insert into dim_customer(customer_id,customer_name,city,created_date,is_active,customer_type) values
+(1,'Ram','Hyderabad','2026-01-01',TRUE,'REGULAR'),
+(2,'Sam','Hyderabad','2026-01-02',TRUE,'REGULAR'),
+(3,'John','Bangalore','2026-01-03',TRUE,'REGULAR'),
+(4,'Ravi','Chennai','2026-01-04',FALSE,'REGULAR'),
+(5,'Priya','Hyderabad','2026-01-05',TRUE,'REGULAR');
+
+select * from dim_customer;
+
+create or replace table fact_orders
+(
+order_id int,
+customer_id int,
+order_date date,
+amount int,
+status string,
+created_ts timestamp default current_timestamp,
+updated_ts timestamp default current_timestamp);
+
+insert into fact_orders(order_id,customer_id,order_date,amount,status,created_ts,updated_ts)
+values 
+(101,1,'2026-03-01',500,'NEW',CURRENT_TIMESTAMP,NULL),
+(102,1,'2026-03-05',700,'SHIPPED',CURRENT_TIMESTAMP,NULL),
+(103,2,'2026-03-02',300,'NEW',CURRENT_TIMESTAMP,NULL),
+(104,3,'2026-03-03',900,'DELIVERED',CURRENT_TIMESTAMP,NULL),
+(105,2,'2026-03-07',200,'NEW',CURRENT_TIMESTAMP,NULL),
+(106,1,'2026-03-10',400,'CANCELLED',CURRENT_TIMESTAMP,NULL),
+(107,3,'2026-03-11',650,'NEW',CURRENT_TIMESTAMP,NULL),
+(108,5,'2026-03-12',800,'NEW',CURRENT_TIMESTAMP,NULL),
+(108,5,'2026-03-12',800,'NEW',CURRENT_TIMESTAMP,NULL);
+
+select* from fact_orders;
+truncate table fact_orders;
+
+create or replace table stg_orders
+(order_id int,
+customer_id int,
+order_date date default current_date,
+amount int,
+status string); 
+
+insert into stg_orders(order_id,customer_id,order_date,amount,status)
+values
+(201,1,'2026-04-01',300,'NEW'),
+(202,2,'2026-04-02',500,'NEW'),
+(203,3,'2026-04-03',450,'NEW'),
+(204,5,'2026-04-04',600,'NEW');
+
+select * from stg_orders;
+
+select to_varchar(order_date,'DD-Mon-YYYY')
+from stg_orders;
+
+select 
+order_id,
+to_varchar(order_date,'DD-MM-YYYY')
+from stg_orders;
+
+select* from stg_orders;
+
+select current_timestamp::date;
+
+-- top 3 customers based on total order amount.
+
+select
+d.city,
+d.customer_name,
+sum(amount) as total_amount,
+from dim_customer d
+join fact_orders f
+on d.customer_id = f.customer_id
+group by d.city, d.customer_name
+qualify row_number() over
+(
+partition by d.city order by total_amount desc
+)<= 3;
+
+--latest order placed by each customer.
+
+select 
+customer_id,
+order_id,
+order_date
+from fact_orders
+qualify row_number() over 
+(
+partition by customer_id order by order_date desc
+)=1
+order by customer_id;
+select* from fact_orders;
+
+--customers who never placed orders
+
+select 
+d.customer_id,
+d.customer_name,
+from dim_customer d
+left join fact_orders f
+on d.customer_id = f.customer_id
+where f.order_id is null;
+
+--monthly revenue
+
+select 
+date_trunc('month',order_date) as order_month,
+sum(amount) as total_revenue
+from fact_orders
+group by order_month;
+
+select * from fact_orders;
+
+--running total order amount per customer order by date
+
+select 
+customer_id,
+order_date,
+amount,
+sum(amount) over(partition by customer_id order by order_date) as running_total
+from fact_orders;
+
+--Detect duplicate ORDER_ID values in FACT_ORDERS
+select order_id,
+count(*) as duplicate_count
+from fact_orders
+group by order_id
+having count(*) >1;
+
+-- difference between union and union all
+select 
+customer_id from dim_customer
+union
+select customer_id from fact_orders;
+
+select 
+customer_id from dim_customer
+union all
+select customer_id from fact_orders;
+
+--previous order amount per customer using LAG
+
+select 
+customer_id,
+order_date,
+amount,
+lag(amount) over(partition by customer_id order by order_date) as previous_amount
+from fact_orders;
+
+
+--running order_amount + previous order amount
+
+select *,
+lag(amount) over(partition by customer_id order by order_date) as previous_amount
+from (
+select 
+customer_id,
+order_date,
+amount,
+sum(amount) over(partition by customer_id order by order_date) as running_total
+from fact_orders
+);
+
+--next order amount per customer using lead
+
+select *,
+lead(amount) over(partition by customer_id order by order_date) as next_amount_order
+from (
+select 
+customer_id,
+order_date,
+amount,
+sum(amount) over(partition by customer_id order by order_date) as running_total
+from fact_orders
+);
+
+-- orders where amount is greaterthan avg amount of the customer's
+
+with cte as
+(
+select 
+customer_id,
+order_id,
+order_date,
+amount,
+avg(amount) over (partition by customer_id) as avg_amount
+from fact_orders
+)
+select * from cte
+where amount > avg_amount;
+
+
+-- highest order amount per customer
+select
+d.city,
+f.amount,
+f.order_id from dim_customer d
+join fact_orders f
+on d.customer_id = f.customer_id
+qualify row_number() over (partition by d.city order by f.amount desc) = 1;
+
+select * from dim_customer;
+
+
+ --number of days between consecutive orders for each customer
+
+select
+customer_id,
+order_date,
+order_id,
+lag(order_date) over (partition by customer_id order by order_date) as previous_order_date,
+datediff(day,lag(order_date) over (partition by customer_id order by order_date),order_date) as days_between_orders
+from fact_orders;
+
+--Count number of orders by STATUS.
+
+select status,
+count(*) as order_count
+from fact_orders
+group by status;
+
+--Categorize customers into Platinum, Gold, Silver based on revenue.
+
+select 
+d.customer_name,
+d.customer_id,
+sum(amount) as revenue,
+case
+when revenue > 3100 then 'platinum'
+when revenue between 1500 and 3200 then 'gold'
+else 'silver'
+end as category
+from fact_orders f
+join dim_customer d
+on d.customer_id = f.customer_id
+group by d.customer_id,customer_name;
+
+-- Retrieve first and last order date per customer.
+
+select 
+d.customer_id,
+d.customer_name,
+min(order_date) as first_order_date,
+max(order_date) as last_order_date,
+from fact_orders
+join dim_customer d
+group by d.customer_id,d.customer_name;
+
+-- highest order placed each day
+
+select 
+order_date,
+order_id,
+amount
+from fact_orders
+qualify row_number() over(
+partition by order_date order by order_id desc
+)=1;
+
+-- List customers who placed more than 5 orders.
+
+select
+d.customer_id,
+d.customer_name,
+count(f.order_id) as total_orders
+from dim_customer d
+join fact_orders f
+on d.customer_id = f.customer_id
+group by d.customer_id, d.customer_name
+having count(f.order_id) > 5;
+
+--Retrieve orders placed in the last 7 days.
+select
+customer_id,
+order_id,
+order_date,
+amount,
+from fact_orders
+where order_date >= current_date- 7 and order_date <=current_date ;
+----or----
+SELECT *
+FROM fact_orders
+WHERE order_date >= DATEADD(day, -7, CURRENT_DATE)
+and order_date <= current_date;
+
+--From multiple records per ORDER_ID, return the latest status using CDC logic.
+
+select * from fact_orders 
+QUALIFY ROW_NUMBER() OVER(PARTITION BY order_id ORDER BY order_date DESC)=1;
