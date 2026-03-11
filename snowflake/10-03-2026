@@ -21,6 +21,9 @@
     install uv using  "pip install uv"
     then sink it  using uv sync
     then go to where your .venv file location coto that file then run .venv/scripts/activate 
+ install "pip install dbt-snowflake"
+then check "dbt --version"
+
     then dbt init folder_name 
     --> if folder is new it will ask it will ask snowflake details 
     like
