@@ -1,0 +1,42 @@
+---- dbt configuration  -----
+
+--requirements
+
+1.python 
+2.vs code -- extentions  -- 1.python
+                            2.dbt power user
+3.git
+
+
+1. fork the student repository on github   -- ( https://github.com/nordquant/dbt-student-repo ) --
+2.after fork - click code button and click to local and copy https link.
+
+    import ("student repository ") that into vs code
+
+ 
+3.then go to vs code open source control then click to clone repository
+4.then paste the copied link on it.
+
+5.in snowflake terminal 
+    install uv using  "pip install uv"
+    then sink it  using uv sync
+    then go to where your .venv file location coto that file then run .venv/scripts/activate 
+    then dbt init folder_name 
+    --> if folder is new it will ask it will ask snowflake details 
+    like
+      type: snowflake
+      account: your_account  (https://ij59213.southeast-asia.azure.snowflakecomputing.com )  give this type of complete link or give "ij59213.southeast-asia.azure" 
+      user: your_username
+      password: your_password
+      role: ACCOUNTADMIN  
+      database: MY_DATABASE
+      warehouse: COMPUTE_WH
+      schema: PUBLIC
+      threads: 4
+--> give details based on your snowflake account and database ,role,schema ,warehouse based on your choice must it will be in snowflake 
+
+    after succefully created folder 
+6.check it using (dbt debug)
+    if all test cases passed  then ur connection is completed
+
+
