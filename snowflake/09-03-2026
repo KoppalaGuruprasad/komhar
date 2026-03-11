@@ -1,6 +1,4 @@
 
-
-
 create or replace database komhar;
 use database komhar;
 create or replace schema guru;
